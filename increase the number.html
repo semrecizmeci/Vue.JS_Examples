@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div class="arttirButonDiv">
+  <button v-on:click="arttiralim()">
+  arttır
+  </button>
+  <p>
+  {{sayi}}
+  </p>
+</div>
+<script>
+new Vue({
+el:".arttirButonDiv",
+data:{
+sayi:0
+},
+methods:{
+arttiralim(){
+this.sayi++
+}
+}
+});
+</script>
+</body>
+</html>
