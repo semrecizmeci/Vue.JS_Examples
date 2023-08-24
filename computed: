@@ -27,6 +27,7 @@
             return this.counter > 10 ? "10 dan büyük" : "10 dan küçük";
           },
         },
+ // Using 'computed' is better.
         computed: {
           output: function () {
             console.log("computed çalıştı");
