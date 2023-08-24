@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+        <p v-once>{{message}}</p>
+      <p class="mesaj">{{selamVer()}} <a v-bind:href="link">LİNKKKKKKKK</a></p>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          message: "selam sana uzaylı",
+          messag1: "aynen aynen",
+          link: "https://www.bing.com/search?pglt=513&q=google+gmail&cvid=78949fd904cd478e94d0850d5970bd26&aqs=edge.0.0j46l2j69i57j0j69i60j69i65j69i60l2.3563j0j1&FORM=ANAB01&PC=U531",
+        },
+        methods: {
+          selamVer: function () {
+            this.message="selam sana insanoglu"
+            return this.message + "----------------" + this.messag1;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
