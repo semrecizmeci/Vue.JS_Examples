@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: gray;
+        display: inline-block;
+        margin-right: 5px;
+      }
+      .yellow {
+        background-color: yellow;
+      }
+      .blue {
+        background-color: blue;
+      }
+      .green {
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div
+        @click="trueOrfalse=!trueOrfalse"
+        :class="{yellow:trueOrfalse}"
+        class="box"
+      ></div>
+      <div
+        @click="trueOrfalse=!trueOrfalse"
+        :class="trueOrfalseFunction"
+        class="box"
+      ></div>
+
+      <div
+        class="box"
+        @click="trueOrfalse=!trueOrfalse"
+        :class="[color,{yellow:trueOrfalse}]"
+      ></div>
+      <hr />
+      <input type="text" v-model="color" />
+      <script>
+        new Vue({
+          el: "#app",
+          data: {
+            trueOrfalse: true,
+            color: "green",
+          },
+          computed: {
+            trueOrfalseFunction: function () {
+              return {
+                yellow: !this.trueOrfalse,
+                blue: this.trueOrfalse,
+              };
+            },
+          },
+        });
+      </script>
+    </div>
+  </body>
+</html>
