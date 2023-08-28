@@ -7,16 +7,10 @@
     <link rel="stylesheet" href="deneme.css" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   </head>
-  <style>
-    .yuzde {
-      background-color: red;
-      /* width: 400px; */
-      height: 50px;
-    }
-  </style>
+
   <body>
     <div id="app">
-      <div :style="genislik" class="yuzde">{{ yuzdeMiktari }}</div>
+      <div :style="genislik" class="yuzde">{{ yuzdeMiktari }}%</div>
       <button v-on:click="butonFonksiyon">düşür</button>
     </div>
     <script>
@@ -30,13 +24,14 @@
         },
         methods: {
           butonFonksiyon() {
-            this.yuzdeMiktari = this.yuzdeMiktari - this.data;
-            this.dinamikGenislik = this.dinamikGenislik - 3;
+            if (this.yuzdeMiktari > 0) {
+              this.yuzdeMiktari = this.yuzdeMiktari - this.data;
+              this.dinamikGenislik = this.dinamikGenislik - 3;
+            }
           },
         },
         computed: {
           genislik() {
-            // let dinamikGenislik = this.Divgenislik - 5;
             return {
               width: `${this.dinamikGenislik}%`,
             };
