@@ -34,6 +34,7 @@
       </div> -->
     </div>
 <script>
+"use strick";
 new Vue({
   el: "#app",
   data: {
@@ -44,16 +45,16 @@ new Vue({
     disable: false,
     randomSayi: 0,
     randomSayi1: 0,
-
   },
   methods: {
     saldirFonksiyon() {
       this.randomSayi = Math.floor(Math.random() * 20);
       this.randomSayi1 = Math.floor(Math.random() * 20);
-      this.senCanYuzde = this.senCanYuzde - randomSayi;
-      this.canavarCanYuzde = this.canavarCanYuzde - randomSayi1;
-      this.senCandinamicBar = this.senCandinamicBar - randomSayi * 2;
-      this.canavarCandinamicBar = this.canavarCandinamicBar - randomSayi1 * 2;
+      this.senCanYuzde = this.senCanYuzde - this.randomSayi;
+      this.canavarCanYuzde = this.canavarCanYuzde - this.randomSayi1;
+      this.senCandinamicBar = this.senCandinamicBar - this.randomSayi * 2;
+      this.canavarCandinamicBar =
+        this.canavarCandinamicBar - this.randomSayi1 * 2;
       if (this.senCanYuzde <= 0) {
         alert("canavar kazandı, bir daha oyna");
         this.senCanYuzde = 100;
@@ -74,10 +75,11 @@ new Vue({
     ozelSaldirFonksiyon() {
       this.randomSayi = Math.floor(Math.random() * 11) + 13;
       this.randomSayi1 = Math.floor(Math.random() * 11) + 13;
-      this.senCanYuzde = this.senCanYuzde - randomSayi;
-      this.canavarCanYuzde = this.canavarCanYuzde - randomSayi1;
-      this.senCandinamicBar = this.senCandinamicBar - randomSayi * 2;
-      this.canavarCandinamicBar = this.canavarCandinamicBar - randomSayi1 * 2;
+      this.senCanYuzde = this.senCanYuzde - this.randomSayi;
+      this.canavarCanYuzde = this.canavarCanYuzde - this.randomSayi1;
+      this.senCandinamicBar = this.senCandinamicBar - this.randomSayi * 2;
+      this.canavarCandinamicBar =
+        this.canavarCandinamicBar - this.randomSayi1 * 2;
       if (this.senCanYuzde <= 0) {
         alert("canavar kazandı, bir daha oyna");
         this.senCanYuzde = 100;
