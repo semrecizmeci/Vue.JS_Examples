@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="test.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="test.js" defer></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="headerDiv">
+        <h3 class="sen">Sen</h3>
+        <h3 class="canavar">Canavar</h3>
+        <div :style="{width:senCandinamicBar + 'px'}" class="senCanBar">
+          {{senCanYuzde}}%
+        </div>
+        <div :style="{width:canavarCandinamicBar + 'px'}" class="canavarCanBar">
+          {{canavarCanYuzde}}%
+        </div>
+      </div>
+      <button v-on:click="saldirFonksiyon" class="but1">saldır</button>
+      <button v-on:click="ozelSaldirFonksiyon" class="but2">özel-saldır</button>
+      <button :disabled="disable" v-on:click="yardimFonksiyon" class="but3">
+        yardım
+      </button>
+      <button v-on:click="pesetFonksiyon" class="but4">pes et</button>
+      <!-- <div class="skorTablosuDiv">
+        <h3>Vuruş Değerleri</h3>
+        <hr />
+        <p v-for="item in senSkorTablosu">Sen : {{item}}</p>
+        <p v-for="item in CanavarSkorTablosu">Canavar :{{item}}</p>
+      </div> -->
+    </div>
+<script>
+new Vue({
+  el: "#app",
+  data: {
+    senCanYuzde: 100,
+    canavarCanYuzde: 100,
+    senCandinamicBar: 250,
+    canavarCandinamicBar: 250,
+    disable: false,
+    randomSayi: 0,
+    randomSayi1: 0,
+
+  },
+  methods: {
+    saldirFonksiyon() {
+      this.randomSayi = Math.floor(Math.random() * 20);
+      this.randomSayi1 = Math.floor(Math.random() * 20);
+      this.senCanYuzde = this.senCanYuzde - randomSayi;
+      this.canavarCanYuzde = this.canavarCanYuzde - randomSayi1;
+      this.senCandinamicBar = this.senCandinamicBar - randomSayi * 2;
+      this.canavarCandinamicBar = this.canavarCandinamicBar - randomSayi1 * 2;
+      if (this.senCanYuzde <= 0) {
+        alert("canavar kazandı, bir daha oyna");
+        this.senCanYuzde = 100;
+        this.canavarCanYuzde = 100;
+        this.senCandinamicBar = 250;
+        this.canavarCandinamicBar = 250;
+        this.disable = false;
+      }
+      if (this.canavarCanYuzde <= 0) {
+        alert("sen kazandın, bir daha oyna");
+        this.senCanYuzde = 100;
+        this.canavarCanYuzde = 100;
+        this.senCandinamicBar = 250;
+        this.canavarCandinamicBar = 250;
+        this.disable = false;
+      }
+    },
+    ozelSaldirFonksiyon() {
+      this.randomSayi = Math.floor(Math.random() * 11) + 13;
+      this.randomSayi1 = Math.floor(Math.random() * 11) + 13;
+      this.senCanYuzde = this.senCanYuzde - randomSayi;
+      this.canavarCanYuzde = this.canavarCanYuzde - randomSayi1;
+      this.senCandinamicBar = this.senCandinamicBar - randomSayi * 2;
+      this.canavarCandinamicBar = this.canavarCandinamicBar - randomSayi1 * 2;
+      if (this.senCanYuzde <= 0) {
+        alert("canavar kazandı, bir daha oyna");
+        this.senCanYuzde = 100;
+        this.canavarCanYuzde = 100;
+        this.senCandinamicBar = 250;
+        this.canavarCandinamicBar = 250;
+        this.disable = false;
+      }
+      if (this.canavarCanYuzde <= 0) {
+        alert("sen kazandın, bir daha oyna");
+        this.senCanYuzde = 100;
+        this.canavarCanYuzde = 100;
+        this.senCandinamicBar = 250;
+        this.canavarCandinamicBar = 250;
+        this.disable = false;
+      }
+    },
+    yardimFonksiyon() {
+      if (this.senCanYuzde <= 90) {
+        this.senCanYuzde += 10;
+        this.senCandinamicBar += 5;
+        this.disable = true;
+      }
+    },
+    pesetFonksiyon() {
+      alert("canavar kazandı, bir daha oyna");
+      this.senCanYuzde = 100;
+      this.canavarCanYuzde = 100;
+      this.senCandinamicBar = 250;
+      this.canavarCandinamicBar = 250;
+      this.disable = false;
+    },
+  },
+});
+
+</script>
+  </body>
+</html>
