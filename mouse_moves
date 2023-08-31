@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mouse Interaction</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+      .page {
+        display: none;
+        text-align: center;
+      }
+      .active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="page" :class="{ active: currentPage === 1 }">
+        <h1>Page 1</h1>
+        <p>
+          Mouse interactions will switch to Page 2 after 5 seconds of
+          inactivity.
+        </p>
+      </div>
+      <div class="page" :class="{ active: currentPage === 2 }">
+        <h1>Page 2</h1>
+        <p>Move your mouse to switch back to Page 1.</p>
+      </div>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data() {
+          return {
+            currentPage: 1,
+            idleTimeout: null,
+          };
+        },
+        methods: {
+          handleMousemove() {
+            this.currentPage = 1; // Mouse hareketi olduğunda Page 1 aktif
+            clearTimeout(this.idleTimeout);
+            this.idleTimeout = setTimeout(() => {
+              this.currentPage = 2; // 5 saniye boyunca mouse hareketi olmazsa Page 2 aktif
+            }, 5000);
+          },
+        },
+        mounted() {
+          document.addEventListener("mousemove", this.handleMousemove);
+        },
+        beforeDestroy() {
+          document.removeEventListener("mousemove", this.handleMousemove);
+        },
+      });
+    </script>
+  </body>
+</html>
