@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+   // <script src="loading_page_test.js" defer></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+      .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      table {
+        border-collapse: collapse;
+        width: 300px;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      button {
+        display: inline-block;
+        position: absolute;
+        left: 45%;
+        top: 42%;
+        font-size: larger;
+        cursor: pointer;
+      }
+      .active {
+        display: block;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button v-if="show" v-on:click="mainFunction">Verileri Getir</button>
+      <div v-if="showLoader" :class="{ active: !show, hidden: show }">
+        <div class="loader"></div>
+        <p>Loading...</p>
+      </div>
+      <div v-if="showTable" :class="{ active: !show, hidden: show }">
+        <table>
+          <thead>
+            <tr>
+              <th>Nation</th>
+              <th>Year</th>
+              <th>Population</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in filterDatas" :key="item['ID Year']">
+              <td>{{ item.Nation }}</td>
+              <td>{{ item.Year }}</td>
+              <td>{{ item.Population }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-if="showAds" :class="{ active: !show, hidden: show }">
+        <h2>REKLAMLAR</h2>
+      </div>
+    </div>
+<script>
+new Vue({
+  el: "#app",
+  data() {
+    return {
+      show: true,
+      showLoader: false,
+      showTable: false,
+      showAds: false,
+      apiData: [],
+      idleTimeout: null,
+    };
+  },
+  computed: {
+    filterDatas() {
+      return this.apiData.filter((item) => item.Population > 318558162);
+    },
+  },
+  methods: {
+    mainFunction() {
+      this.show = false; // Butonu gizle
+      this.showLoader = true; // Yükleme göster
+      this.showAds = false; // Reklam sayfasını gizle
+      setTimeout(() => {
+        this.showLoader = false; // Yükleme tamamlandı, gerçek içeriği göster
+        this.showTable = true;
+      }, 500);
+      // Verileri çekmek için bir axios isteği gönderiyoruz
+      axios
+        .get(
+          "https://datausa.io/api/data?drilldowns=Nation&measures=Population"
+        )
+        .then((response) => {
+          this.apiData = response.data.data;
+
+          // Veriler çekildikten sonra, 2 saniye bekleyip yükleme gösterimini kapatıyoruz
+          // setTimeout(() => {
+          //   this.showLoader = false; // Yükleme tamamlandı, gerçek içeriği göster
+          //   this.showTable = true;
+          // }, 2000);
+        })
+        .catch((error) => {
+          console.log("API hatası:", error);
+          this.showLoader = false; // Hata durumunda da yükleme gösterimi kapat
+        });
+
+      // Mouse hareketlerini izlemeye başla
+      this.startMouseTracking();
+    },
+    startMouseTracking() {
+      // Mouse hareketleri izleme
+      document.addEventListener("mousemove", this.handleMousemove);
+
+      // 5 saniye boyunca mouse hareketi olmazsa reklam sayfasını göster
+      this.idleTimeout = setTimeout(() => {
+        this.showAds = true;
+        this.showTable = false;
+        document.removeEventListener("mousemove", this.handleMousemove);
+
+        // Mouse hareketi yaparsa reklam sayfasını kapat
+        document.addEventListener("mousemove", this.handleMouseMoveToCloseAds);
+      }, 3000);
+    },
+    handleMousemove() {
+      // Mouse hareketi olduğunda timeout sıfırlanır
+      clearTimeout(this.idleTimeout);
+
+      // Sayfayı yeniden ana içeriğe döndür
+      this.showAds = false;
+      this.showTable = true;
+
+      // 5 saniyelik yeni bir timeout başlatılır
+      this.startMouseTracking();
+    },
+    handleMouseMoveToCloseAds() {
+      // Mouse hareketi olduğunda reklam sayfasını kapat
+      this.showAds = false;
+      this.showTable = true;
+
+      // Mouse hareketi durduğunda yeniden reklam sayfasını gösterme
+      document.removeEventListener("mousemove", this.handleMouseMoveToCloseAds);
+      this.startMouseTracking();
+    },
+  },
+});
+
+</script>
+  </body>
+</html>
